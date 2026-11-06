@@ -6,31 +6,45 @@ This repository documents a hands-on data warehouse exercise completed as part o
 
 ## Architecture
 
-```mermaid
-flowchart LR
-    A[CSV files] --> B[Amazon S3]
-    B --> C[Amazon Redshift]
-    C --> D[Google Data Studio]
-```
+![alt text](arquitetura.png)
 
 ## Data Model
 
 The warehouse schema models a sales scenario with the following tables:
 
-- `Vendedores`: sales representatives.
-- `Produtos`: product catalog and prices.
-- `Clientes`: customer details.
-- `Vendas`: sales transactions, linked to customers and sales representatives.
-- `ItensVenda`: line items for each sale, including product, quantity, value, and discount information.
+-   `Vendedores`: sales representatives.
+-   `Produtos`: product catalog and prices.
+-   `Clientes`: customer details.
+-   `Vendas`: sales transactions, linked to customers and sales representatives.
+-   `ItensVenda`: line items for each sale, including product, quantity, value, and discount information.
 
 The table definitions, primary keys, and relationships are available in [sql/1.CreateTables.sql](sql/1.CreateTables.sql).
+The Copy command is avaiable in [sql/2.Copy.sql](sql/copy.sql).
+The denormalized table script is avaiable in [sql/3.DenormalizedTable](sql/3.DenormalizedTable.sql)
 
 ## Workflow
 
 1. Create the data warehouse tables in Amazon Redshift using SQL.
 2. Store the source CSV files in an Amazon S3 bucket.
-3. Load the CSV data from S3 into the corresponding Redshift tables.
-4. Connect Google Data Studio to the warehouse and build a dashboard for data exploration.
+3. Load the CSV data from S3 into the corresponding Redshift tables using the SQL COPY command.
+4. Create a denormalized table.
+5. Connect Google Data Studio to the warehouse and build a dashboard for data exploration.
+
+## Data Modeling and Denormalization
+
+After loading the source data from Amazon S3 into Amazon Redshift using the SQL COPY command, a denormalized table was created to support analytical queries and dashboard development.
+
+The denormalized table consolidates data from multiple source tables into a single structure, reducing the need for complex joins during data analysis.
+
+## Purpose
+
+-   Simplify analytical queries.
+
+-   Reduce the need for repeated joins across source tables.
+
+-   Prepare data for dashboard visualization.
+
+-   Improve accessibility of business metrics and reporting.
 
 ## Repository Structure
 
@@ -38,6 +52,8 @@ The table definitions, primary keys, and relationships are available in [sql/1.C
 .
 ├── sql/
 │   └── 1.CreateTables.sql
+│   └── 2.Copy.sql
+│   └── 3.DenormalizedTable.sql
 └── tables/
     ├── clientes.csv
     ├── itensvenda.csv
@@ -46,17 +62,19 @@ The table definitions, primary keys, and relationships are available in [sql/1.C
     └── vendas.csv
 ```
 
-- [Table creation script](sql/1.CreateTables.sql)
-- Source data: [clientes.csv](tables/clientes.csv), [itensvenda.csv](tables/itensvenda.csv), [produtos.csv](tables/produtos.csv), [vendedores.csv](tables/vendedores.csv), and [vendas.csv](tables/vendas.csv)
+-   [Table creation script](sql/1.CreateTables.sql)
+-   [Data Ingestion script](sql/2.Copy.sql)
+-   [Denormalized table creation script](sql/3.DenormalizedTable.sql)
+-   Source data: [clientes.csv](tables/clientes.csv), [itensvenda.csv](tables/itensvenda.csv), [produtos.csv](tables/produtos.csv), [vendedores.csv](tables/vendedores.csv), and [vendas.csv](tables/vendas.csv)
 
 ## Skills Demonstrated
 
-- Data warehousing concepts
-- Amazon Redshift
-- Amazon S3
-- SQL table design and relationships
-- CSV data ingestion
-- Google Data Studio dashboard development
+-   Data warehousing concepts
+-   Amazon Redshift
+-   Amazon S3
+-   SQL table design and relationships
+-   CSV data ingestion
+-   Google Data Studio dashboard development
 
 ## Notes
 
