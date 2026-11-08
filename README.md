@@ -46,6 +46,16 @@ The denormalized table consolidates data from multiple source tables into a sing
 
 -   Improve accessibility of business metrics and reporting.
 
+## Data Quality Checks
+
+After loading the source tables with the `COPY` command, run the [data quality report](sql/4.DataQualityChecks.sql) in Amazon Redshift. The script is read-only and returns one row for each validation rule with `table_name`, `check_name`, `invalid_row_count`, and `status`.
+
+The report checks:
+
+- Duplicate primary-key values in the imported tables.
+- Duplicate values in `Vendedores.Nome`, `Produtos.Produto`, and `Clientes.Cliente`. These findings are informational and should be reviewed in the business context.
+- `NULL` values in every column defined in the source-table schema.
+
 ## Repository Structure
 
 ```text
@@ -54,6 +64,7 @@ The denormalized table consolidates data from multiple source tables into a sing
 │   └── 1.CreateTables.sql
 │   └── 2.Copy.sql
 │   └── 3.DenormalizedTable.sql
+│   └── 4.DataQualityChecks.sql
 └── tables/
     ├── clientes.csv
     ├── itensvenda.csv
@@ -65,6 +76,7 @@ The denormalized table consolidates data from multiple source tables into a sing
 -   [Table creation script](sql/1.CreateTables.sql)
 -   [Data Ingestion script](sql/2.Copy.sql)
 -   [Denormalized table creation script](sql/3.DenormalizedTable.sql)
+-   [Data quality report](sql/4.DataQualityChecks.sql)
 -   Source data: [clientes.csv](tables/clientes.csv), [itensvenda.csv](tables/itensvenda.csv), [produtos.csv](tables/produtos.csv), [vendedores.csv](tables/vendedores.csv), and [vendas.csv](tables/vendas.csv)
 
 ## Skills Demonstrated
